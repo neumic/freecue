@@ -1,0 +1,12 @@
+for now, implement these functions:
+
+add_track(filename)
+remove_track(track_object?)
+track_status
+
+add_cue(enum type?, track_object?)
+delete_cue(cue_obj?)
+
+cue_obj *next_cue play_cue(cue_obj?)
+
+and simple interface to play around with
