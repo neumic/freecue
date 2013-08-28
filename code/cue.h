@@ -1,3 +1,6 @@
+#ifndef _cue_h
+#define _cue_h
+
 #include <gst/gst.h>
 
 struct Cue {
@@ -16,3 +19,5 @@ void Cue_set_state( struct Cue*, GstState );
 void Cue_set_media( struct Cue*, GstElement* );
 
 void Cue_run( struct Cue* );
+
+#endif
