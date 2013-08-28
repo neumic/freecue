@@ -21,7 +21,7 @@ void Cue_destroy( struct Cue* cue){
 }
 
 void Cue_print( struct Cue* cue){
-   printf( "This is a cue. More details to come." );
+   printf( "This is a cue. More details to come.\n" );
 }
 
 void Cue_set_state( struct Cue* cue, GstState state ){

@@ -5,29 +5,31 @@
 #include "cue.h"
 
 int main( int argc, char* argv[] ){
-  GMainLoop *loop;
-  GstElement *media;
+   GMainLoop *loop;
+   GstElement *media;
 
-  gst_init( &argc, &argv );
-  loop = g_main_loop_new( NULL, FALSE );
+   gst_init( &argc, &argv );
+   loop = g_main_loop_new( NULL, FALSE );
 
-  media = gst_element_factory_make( "playbin", "play" );
-  g_object_set( G_OBJECT( media ), "uri", 
-      "file://home/nickm/projects/opencue/Hurricane_Connie_1955.ogg", NULL);
+   media = gst_element_factory_make( "playbin", "media" );
+   if( !media ) return -1;
 
-  struct Cue* cue = Cue_create( media, GST_STATE_PLAYING );
+   g_object_set( G_OBJECT( media ), "uri", 
+      "file:///home/nickm/projects/opencue/Hurricane_Connie_1955.ogg", NULL);
 
-  Cue_print( cue );
+   struct Cue* cue = Cue_create( media, GST_STATE_PLAYING );
 
-  Cue_run( cue );
+   Cue_print( cue );
 
-  g_main_loop_run( loop );
+   Cue_run( cue );
 
-  Cue_destroy( cue );
+   g_main_loop_run( loop );
 
-  gst_object_unref( GST_OBJECT( media ) );
+   Cue_destroy( cue );
 
-  return 0;
+   gst_object_unref( GST_OBJECT( media ) );
+
+   return 0;
 }
 
 
