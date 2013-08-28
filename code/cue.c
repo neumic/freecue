@@ -1,4 +1,6 @@
 #include <gst/gst.h>
+#include <assert.h>
+#include <stdlib.h>
 #include "cue.h"
 
 struct Cue* Cue_create( GstElement* pipeline, GstState state ){
@@ -12,21 +14,16 @@ struct Cue* Cue_create( GstElement* pipeline, GstState state ){
 }
 
 void Cue_destroy( struct Cue* cue){
-   return void;
 }
 
 void Cue_print( struct Cue* cue){
-   return void;
 }
 
 void Cue_set_state( struct Cue* cue, GstState state ){
-   return void;
 }
 
-void Cue_set_media( struct Cue*, GstElement* pipeline ){
-   return void;
+void Cue_set_media( struct Cue* cue, GstElement* pipeline ){
 }
 
 void Cue_run( struct Cue* cue){
-   return void;
 }

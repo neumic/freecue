@@ -6,7 +6,7 @@
 struct Cue {
    GstElement* media_pipeline;
    GstState media_state;
-}
+};
 
 struct Cue* Cue_create( GstElement*, GstState );
 
