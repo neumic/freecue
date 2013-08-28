@@ -2,22 +2,33 @@
 #define _cue_h
 
 #include <gst/gst.h>
+#include "media.h"
 
-struct Cue {
-   GstElement* media_pipeline;
-   GstState media_state;
+enum cueType {
+   PLAY,
+   PAUSE,
+   STOP
 };
 
-struct Cue* Cue_create( GstElement*, GstState );
+typedef enum cueType cueType;
 
-void Cue_destroy( struct Cue* );
+struct Cue {
+   MediaObject* media_object;
+   cueType type;
+};
 
-void Cue_print( struct Cue* );
+typedef struct Cue Cue;
 
-void Cue_set_state( struct Cue*, GstState );
+struct Cue* Cue_create( MediaObject*, cueType );
 
-void Cue_set_media( struct Cue*, GstElement* );
+void Cue_destroy( Cue* );
 
-void Cue_run( struct Cue* );
+void Cue_print( Cue* );
+
+void Cue_set_type( Cue*, cueType );
+
+void Cue_set_media( Cue*, MediaObject* );
+
+void Cue_run( Cue* );
 
 #endif

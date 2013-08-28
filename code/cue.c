@@ -4,34 +4,41 @@
 #include <stdlib.h>
 #include "cue.h"
 
-struct Cue* Cue_create( GstElement* pipeline, GstState state ){
-   struct Cue *cue = malloc( sizeof( struct Cue ) );
-   assert( NULL != cue ); //I don't know if this is the correct thing to check
+Cue* Cue_create( MediaObject* media_object, cueType type ){
+   Cue *cue = malloc( sizeof *cue );
+   //error check
 
-   cue -> media_pipeline = pipeline;
-   cue -> media_state    = state;
+   cue -> media_object = media_object;
+   cue -> type         = type;
 
    return cue;
 }
 
-void Cue_destroy( struct Cue* cue){
-   assert( NULL != cue );
+void Cue_destroy( Cue* cue){
+   assert( NULL != cue ); //switch to non-assert error handling
 
    free(cue);
 }
 
-void Cue_print( struct Cue* cue){
+void Cue_print( Cue* cue){
    printf( "This is a cue. More details to come.\n" );
 }
 
-void Cue_set_state( struct Cue* cue, GstState state ){
-   cue -> media_state = state;
+void Cue_set_state( Cue* cue, cueType type ){
+   cue -> type = type;
 }
 
-void Cue_set_media( struct Cue* cue, GstElement* pipeline ){
-   cue -> media_pipeline = pipeline;
+void Cue_set_media( Cue* cue, MediaObject* media_object ){
+   cue -> media_object = media_object;
 }
 
-void Cue_run( struct Cue* cue){
-   gst_element_set_state( cue -> media_pipeline, cue -> media_state );
+void Cue_run( Cue* cue){
+   switch( cue -> type ) {
+      case PLAY:
+         MediaObject_play( cue -> media_object );
+      case PAUSE:
+         MediaObject_pause( cue -> media_object );
+      case STOP:
+         MediaObject_stop( cue -> media_object );
+   }
 }

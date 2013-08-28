@@ -7,7 +7,7 @@ MediaObject* MediaObject_create( char* uri ){
    MediaObject* media_object = malloc( sizeof *media_object );
    if( NULL == media_object ) return NULL; //figure out error handling paradigm
 
-   media_object -> pipeline = gst_element_factory_make( "playbin_object", "pipeline" );
+   media_object -> pipeline = gst_element_factory_make( "playbin", "pipeline" );
    //error handling here
 
    g_object_set( G_OBJECT( media_object -> pipeline ), "uri", uri,  NULL );

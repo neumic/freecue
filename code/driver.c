@@ -3,21 +3,18 @@
 #include <stdlib.h>
 #include <glib.h>
 #include "cue.h"
+#include "media.h"
 
 int main( int argc, char* argv[] ){
    GMainLoop *loop;
-   GstElement *media;
 
    gst_init( &argc, &argv );
    loop = g_main_loop_new( NULL, FALSE );
 
-   media = gst_element_factory_make( "playbin", "media" );
-   if( !media ) return -1;
+   MediaObject* media_object = MediaObject_create( 
+      "file:///home/nickm/projects/opencue/Hurricane_Connie_1955.ogg" );
 
-   g_object_set( G_OBJECT( media ), "uri", 
-      "file:///home/nickm/projects/opencue/Hurricane_Connie_1955.ogg", NULL);
-
-   struct Cue* cue = Cue_create( media, GST_STATE_PLAYING );
+   struct Cue* cue = Cue_create( media_object, PLAY);
 
    Cue_print( cue );
 
@@ -26,8 +23,6 @@ int main( int argc, char* argv[] ){
    g_main_loop_run( loop );
 
    Cue_destroy( cue );
-
-   gst_object_unref( GST_OBJECT( media ) );
 
    return 0;
 }
