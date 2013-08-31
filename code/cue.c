@@ -36,9 +36,12 @@ void Cue_run( Cue* cue){
    switch( cue -> type ) {
       case PLAY:
          MediaObject_play( cue -> media_object );
+         break;
       case PAUSE:
          MediaObject_pause( cue -> media_object );
+         break;
       case STOP:
          MediaObject_stop( cue -> media_object );
+         break;
    }
 }
