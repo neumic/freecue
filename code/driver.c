@@ -53,14 +53,17 @@ gchar* path_to_uri( gchar* path, gchar* working_dir ){
 
    return uri;
 }
+
+void print_media_array( GArray* media_array ){
+   gint i;
+   for(i = 0; i < (media_array -> len); i++) {
+      MediaObject_print( g_array_index( media_array, MediaObject*, i ) );
+   }
+}
    
 
-int main( int argc, gchar* argv[] ){
-   gchar* uri = {0};
 
-   if( argc > 1 ){
-      uri = path_to_uri( argv[1], g_get_current_dir() );
-   }
+int main( int argc, gchar* argv[] ){
    GMainLoop *loop;
 
    GstBus *bus;
@@ -70,13 +73,23 @@ int main( int argc, gchar* argv[] ){
 
    loop = g_main_loop_new( NULL, FALSE );
 
-   MediaObject* media_object = MediaObject_create( uri );
-      
+   gchar* uri;
+   MediaObject* media_object;
+   GArray* media_array = g_array_new( FALSE, FALSE, sizeof (MediaObject*) );
+   gint i = 1;
 
-   struct Cue* cue = Cue_create( media_object, PLAY );
+   for(i = 1; i < argc; i++) {
+      uri = path_to_uri( argv[i], g_get_current_dir() );
+      media_object = MediaObject_create( uri );
+      g_array_append_val( media_array, media_object );
+   }
+
+   print_media_array( media_array );
+
+   struct Cue* cue = Cue_create( g_array_index( media_array, MediaObject*, 0 ), PLAY );
    Cue_print( cue );
 
-   bus = gst_pipeline_get_bus( GST_PIPELINE( media_object -> pipeline ) );
+   bus = gst_pipeline_get_bus( GST_PIPELINE( g_array_index( media_array, MediaObject*, 0 ) -> pipeline ) );
    bus_watch_id = gst_bus_add_watch( bus, bus_call, loop );
    gst_object_unref( bus );
 
@@ -86,7 +99,9 @@ int main( int argc, gchar* argv[] ){
    g_print( "returned, stopping.\n");
 
    Cue_destroy( cue );
-   MediaObject_destroy( media_object );
+   for(i = 0; i < (media_array -> len); i++) {
+      MediaObject_destroy( g_array_index( media_array, MediaObject*, i ) );
+   }
    g_source_remove( bus_watch_id );
    g_main_loop_unref( loop );
 

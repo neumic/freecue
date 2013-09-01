@@ -21,6 +21,10 @@ void MediaObject_destroy( MediaObject* media_object ){
    free( media_object );
 }
 
+void MediaObject_print( MediaObject* media_object ){
+   printf( "MediaObject_print stub\n" );
+}
+
 void MediaObject_play( MediaObject* media_object ){
    gst_element_set_state( media_object -> pipeline, GST_STATE_PLAYING );
    GstState* state = malloc( sizeof *state );
