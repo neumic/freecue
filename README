@@ -1,0 +1,3 @@
+This is early work towards an cueing system for theatre/live entertainment. As of yet I haven't attached a licence to it (since there's very little here) but it will probably be GPL.
+
+It's built off of gstreamer and glib.  There's probably a gtk+ frontend in it's future.
