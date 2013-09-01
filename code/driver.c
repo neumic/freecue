@@ -42,6 +42,10 @@ static gboolean bus_call( GstBus*     bus,
    return TRUE;
 }
 
+/*****
+* Converts a path (absolute or relative) to a file:// uri
+* All relative paths begin in working_dir
+*****/
 gchar* path_to_uri( gchar* path, gchar* working_dir ){
    gchar* uri = {0};
    if( g_path_is_absolute( path ) ){
@@ -54,6 +58,9 @@ gchar* path_to_uri( gchar* path, gchar* working_dir ){
    return uri;
 }
 
+/*****
+* prints out a GArray of MediaObject*
+*****/
 void print_media_array( GArray* media_array ){
    gint i;
    for(i = 0; i < (media_array -> len); i++) {
@@ -73,6 +80,8 @@ int main( int argc, gchar* argv[] ){
 
    loop = g_main_loop_new( NULL, FALSE );
 
+   //Pack up all arguments and create MediaObjects for them
+   //TODO: put this all in GOption land
    gchar* uri;
    MediaObject* media_object;
    GArray* media_array = g_array_new( FALSE, FALSE, sizeof (MediaObject*) );
@@ -86,9 +95,11 @@ int main( int argc, gchar* argv[] ){
 
    print_media_array( media_array );
 
-   struct Cue* cue = Cue_create( g_array_index( media_array, MediaObject*, 0 ), PLAY );
+   Cue* cue = Cue_create( g_array_index( media_array, MediaObject*, 0 ), PLAY );
    Cue_print( cue );
 
+   //TODO: this bus logic is out of date.  We now have pipeline per file going
+   //      on ( though maybe that should change? )
    bus = gst_pipeline_get_bus( GST_PIPELINE( g_array_index( media_array, MediaObject*, 0 ) -> pipeline ) );
    bus_watch_id = gst_bus_add_watch( bus, bus_call, loop );
    gst_object_unref( bus );
@@ -97,6 +108,9 @@ int main( int argc, gchar* argv[] ){
 
    g_main_loop_run( loop );
    g_print( "returned, stopping.\n");
+
+   //TODO: I know there are more objects to free here.
+   //I need to figure out best practices regarding this sort of stuff
 
    Cue_destroy( cue );
    for(i = 0; i < (media_array -> len); i++) {

@@ -3,6 +3,8 @@
 
 #include <gst/gst.h>
 
+//TODO: add fuction description comments
+
 struct MediaObject {
    GstElement* pipeline;
 };

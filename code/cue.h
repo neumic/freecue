@@ -4,6 +4,8 @@
 #include <gst/gst.h>
 #include "media.h"
 
+
+//TODO: add fuction description comments
 enum cueType {
    PLAY,
    PAUSE,
