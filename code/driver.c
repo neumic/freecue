@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <glib.h>
+#include <unistd.h>
 
 #include <limits.h>
 
@@ -83,10 +84,11 @@ int main( int argc, gchar* argv[] ){
       g_array_append_val( media_array, media_object );
    }
 
-   print_media_array( media_array );
-
    Cue* cue = Cue_create( g_array_index( media_array, MediaObject*, 0 ), PLAY );
    Cue_print( cue );
+
+   GIOChannel* gio_stdin = g_io_channel_unix_new( STDIN_FILENO );
+   menu_prompt( gio_stdin );
 
    //TODO: this bus logic is out of date.  We now have pipeline per file going
    //      on ( though maybe that should change? )
