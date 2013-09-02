@@ -8,6 +8,7 @@
 
 #include "cue.h"
 #include "media.h"
+#include "menu.h"
 
 static gboolean bus_call( GstBus*     bus,
                           GstMessage* msg,
@@ -57,17 +58,6 @@ gchar* path_to_uri( gchar* path, gchar* working_dir ){
 
    return uri;
 }
-
-/*****
-* prints out a GArray of MediaObject*
-*****/
-void print_media_array( GArray* media_array ){
-   gint i;
-   for(i = 0; i < (media_array -> len); i++) {
-      MediaObject_print( g_array_index( media_array, MediaObject*, i ) );
-   }
-}
-   
 
 
 int main( int argc, gchar* argv[] ){
