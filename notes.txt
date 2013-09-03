@@ -1,7 +1,0 @@
-maybe this for now:
-
-pipeline create_pipeline(filename)
-
-
-
-gst-launch-1.0 filesrc location=/home/nickm/projects/opencue/Big\ Max\ and\ Jungle\ Jacob.m4a ! decodebin ! adder name=mix ! playsink filesrc location=/home/nickm/music/library/artists/On\ a\ Monster/Nightmare/06\ Perfect\ World.wav ! decodebin ! mix.
